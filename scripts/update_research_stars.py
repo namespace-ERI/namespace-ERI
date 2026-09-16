@@ -23,27 +23,27 @@ def stars(repository: str) -> int:
 def main() -> None:
     total = sum(stars(repository) for repository in REPOSITORIES)
     value = f"{total:,}"
-    impact = Path("assets/research-impact.svg")
+    impact = Path("assets/stats.svg")
     content = impact.read_text()
     content, desc_count = re.subn(
-        r"(<desc id=\"desc\">)[0-9,]+( repository stars)",
+        r"(<desc id=\"desc\">)[0-9,]+( project stars)",
         rf"\g<1>{value}\2", content,
     )
     content, text_count = re.subn(
-        r"(<text class=\"value\" x=\"51\" y=\"86\">)[0-9,]+(</text>)",
+        r"(<text id=\"project-stars\" class=\"value\" x=\"76\" y=\"67\">)[0-9,]+(</text>)",
         rf"\g<1>{value}\2", content,
     )
     if desc_count != 1 or text_count != 1:
-        raise RuntimeError("Could not find the research-star fields")
+        raise RuntimeError("Could not find the project-star fields")
     impact.write_text(content)
 
     readme = Path("README.md")
     readme_content, alt_count = re.subn(
-        r"(Research impact: )[0-9,]+( repository stars)",
+        r"(alt=\")[0-9,]+( project stars)",
         rf"\g<1>{value}\2", readme.read_text(),
     )
     if alt_count != 1:
-        raise RuntimeError("Could not find the research-impact alt text")
+        raise RuntimeError("Could not find the stats alt text")
     readme.write_text(readme_content)
 
 if __name__ == "__main__":
