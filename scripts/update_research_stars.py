@@ -12,9 +12,6 @@ REPOSITORIES = (
     "VincentZhao2002/OPOD", "ignorejjj/VeriGraph", "walkeralan123/MemoPilot",
     "RUC-NLPIR/ClawTrojan", "qhjqhj00/cabeza", "plageon/MemSifter",
 )
-START = "<!-- RESEARCH_STARS_START -->"
-END = "<!-- RESEARCH_STARS_END -->"
-
 def stars(repository: str) -> int:
     request = urllib.request.Request(f"https://api.github.com/repos/{repository}", headers={
         "Accept": "application/vnd.github+json", "Authorization": f"Bearer {os.environ['GITHUB_TOKEN']}",
@@ -25,18 +22,29 @@ def stars(repository: str) -> int:
 
 def main() -> None:
     total = sum(stars(repository) for repository in REPOSITORIES)
-    total_url = f"{total:,}".replace(",", "%2C")
-    block = f'''{START}
-<p>
-  <img src="https://img.shields.io/badge/Research_repositories-{len(REPOSITORIES)}-0F766E?style=for-the-badge" alt="{len(REPOSITORIES)} research repositories" />
-  <img src="https://img.shields.io/badge/Combined_stars-{total_url}-F59E0B?style=for-the-badge&logo=github&logoColor=white" alt="{total:,} combined stars" />
-</p>
-{END}'''
+    value = f"{total:,}"
+    impact = Path("assets/research-impact.svg")
+    content = impact.read_text()
+    content, desc_count = re.subn(
+        r"(<desc id=\"desc\">)[0-9,]+( repository stars)",
+        rf"\g<1>{value}\2", content,
+    )
+    content, text_count = re.subn(
+        r"(<text class=\"value\" x=\"51\" y=\"86\">)[0-9,]+(</text>)",
+        rf"\g<1>{value}\2", content,
+    )
+    if desc_count != 1 or text_count != 1:
+        raise RuntimeError("Could not find the research-star fields")
+    impact.write_text(content)
+
     readme = Path("README.md")
-    updated, replacements = re.subn(rf"{re.escape(START)}.*?{re.escape(END)}", block, readme.read_text(), flags=re.DOTALL)
-    if replacements != 1:
-        raise RuntimeError("Could not find a unique research-star block")
-    readme.write_text(updated)
+    readme_content, alt_count = re.subn(
+        r"(Research impact: )[0-9,]+( repository stars)",
+        rf"\g<1>{value}\2", readme.read_text(),
+    )
+    if alt_count != 1:
+        raise RuntimeError("Could not find the research-impact alt text")
+    readme.write_text(readme_content)
 
 if __name__ == "__main__":
     main()
