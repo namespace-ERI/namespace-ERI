@@ -30,7 +30,7 @@ def main() -> None:
         rf"\g<1>{value}\2", content,
     )
     content, text_count = re.subn(
-        r"(<text id=\"project-stars\" class=\"value\" x=\"76\" y=\"67\">)[0-9,]+(</text>)",
+        r"(<text id=\"project-stars\" class=\"value\" x=\"107\" y=\"67\">)[0-9,]+(</text>)",
         rf"\g<1>{value}\2", content,
     )
     if desc_count != 1 or text_count != 1:
