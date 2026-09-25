@@ -11,7 +11,7 @@ I am currently a research intern at the **LLM Center, Shanghai Artificial Intell
 </p>
 
 <p align="center">
-  <img width="100%" src="./assets/stats.svg" alt="4,997 project stars, 4,790 commits, and contributions to 6 repositories in the last year" />
+  <img width="100%" src="./assets/stats.svg" alt="5,004 project stars, 4,790 commits, and contributions to 6 repositories in the last year" />
 </p>
 
 <sub>Project stars include my authored and co-authored repositories hosted across personal, lab, and collaborator accounts. Updated daily.</sub>
