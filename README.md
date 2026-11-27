@@ -13,7 +13,7 @@ Feel free to contact me if you are interested in related topics or potential col
 </p>
 
 <p align="center">
-  <img width="100%" src="./assets/stats.svg" alt="5,060 project stars, 4,790 commits, and contributions to 6 repositories in the last year" />
+  <img width="100%" src="./assets/stats.svg" alt="5,065 project stars, 4,790 commits, and contributions to 6 repositories in the last year" />
 </p>
 
 <sub>Project stars include my authored and co-authored repositories hosted across personal, lab, and collaborator accounts. Updated daily.</sub>
